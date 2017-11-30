@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn import svm
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.cross_validation import train_test_split
 
 ## Jingwen Liao
@@ -27,7 +27,7 @@ def main():
 	#X, Y, features = read_csv('Microarray_data.csv')
 	#X, Y, features = read_csv('Microarray_data_centered.csv')
 	X, Y, features = read_csv('Microarray_data_with_reduced_features_centered.csv')
-	
+
 	num_samples, num_features = X.shape
 
 	# Maintaining class bias
@@ -51,12 +51,10 @@ def main():
 	Ypred_test = clf.predict(X_test)
 	print sum([Ypred_test[i] == Y_test[i] for i in range(len(Y_test))])*1.0 / len(Y_test)
 
-	# Preliminary metric: confusion matrix
-	tn, fp, fn, tp = confusion_matrix(Y_train, Ypred_train).ravel()
-	print "True negatives: {}, false positives: {}, false negatives: {}, true positives: {}".format(tn, fp, fn, tp)
+	# Metrics
+	print "Accuracy score is {} and F1 score is {}".format(accuracy_score(Y_test, Ypred_test), f1_score(Y_test, Ypred_test))
 
-	tn, fp, fn, tp = confusion_matrix(Y_test, Ypred_test).ravel()
-	print "True negatives: {}, false positives: {}, false negatives: {}, true positives: {}".format(tn, fp, fn, tp)
+	return
 
 if __name__ == "__main__" :
     main()
